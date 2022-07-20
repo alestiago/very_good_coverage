@@ -10399,10 +10399,10 @@ function run() {
     }
 
     if (githubToken) {
-      let message = ```
+      let coverageMessage = ```
       Lines: ${coverage}% (${totalHits} of ${totalFinds} lines)
       ```;
-      commentOnPullRequest(githubToken, message);
+      commentOnPullRequest(githubToken, coverageMessage);
     }
   });
 }
