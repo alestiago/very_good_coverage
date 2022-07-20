@@ -61,7 +61,7 @@ function run() {
     }
 
     if (githubToken) {
-      const message = `Hello world 3`;
+      const message = `Hello world 4`;
       postOrUpdateComment(githubToken, message);
     }
   });
@@ -108,24 +108,24 @@ function postOrUpdateComment(githubToken, message) {
     ...context.repo,
     issue_number: context.issue.number,
   };
-  // const previousComments = octokit.rest.issues.listComments(githubIssueData);
-  // for (let comment of previousComments) {
-  //   if (comment.user.type === 'Bot' && comment.body.includes('Hello world 2')) {
-  //     commentIdentifier = comment.id;
-  //     break;
-  //   }
-  // }
+  const previousComments = octokit.rest.issues.listComments(githubIssueData);
+  for (let comment of previousComments) {
+    if (comment.user.type === 'Bot' && comment.body.includes('Hello world 3')) {
+      commentIdentifier = comment.id;
+      break;
+    }
+  }
 
   const comment = {
     ...githubIssueData,
     body: message,
     comment_id: commentIdentifier,
   };
-  // if (commentIdentifier) {
-  //   octokit.rest.issues.updateComment(comment);
-  // } else {
-  octokit.rest.issues.createComment(comment);
-  // }
+  if (commentIdentifier) {
+    octokit.rest.issues.updateComment(comment);
+  } else {
+    octokit.rest.issues.createComment(comment);
+  }
 }
 
 run();
