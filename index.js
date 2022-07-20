@@ -68,6 +68,7 @@ Coverage difference: ${coverage - minCoverage}%
 
       if (linesMissingCoverageByFile.length > 0) {
         message += `\
+<notextile>
 <details>
 
 <summary> Lines not covered </summary>
@@ -75,6 +76,7 @@ Coverage difference: ${coverage - minCoverage}%
 ${linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')}
 
 </details>
+</notextile>
 `;
       }
 
