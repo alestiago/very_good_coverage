@@ -64,15 +64,10 @@ function run() {
       let message = ```
       Coverage: ${coverage}%
       ```;
-      const linesMissingCoverageByFile = Object.entries(
-        linesMissingCoverage
-      ).map(([file, lines]) => {
-        return `${file}: ${lines.join(', ')}`;
-      });
       if (linesMissingCoverage) {
         message +=
           `\n\nLines not covered:\n` +
-          linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n');
+          linesMissingCoverage.map((line) => `  ${line}`).join('\n');
       }
 
       commentOnPullRequest(githubToken, message);
