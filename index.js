@@ -61,13 +61,12 @@ function run() {
     }
 
     if (githubToken) {
-      // const coverageDifference = (coverage - minCoverage) * 100;
-
-      // let message = ```
-      // Lines: ${coverage}% (${totalHits} of ${totalFinds} lines)
-      // Coverage difference: ${coverageDifference}% (${coverage}% - ${minCoverage}%)
-      // ```;
-      commentOnPullRequest(githubToken, 'hello');
+      const coverageDifference = (coverage - minCoverage) * 100;
+      let message = ```
+      Lines: ${coverage}% (${totalHits} of ${totalFinds} lines)
+      Coverage difference: ${coverageDifference}% (${coverage}% - ${minCoverage}%)
+      ```;
+      commentOnPullRequest(githubToken, message);
     }
   });
 }
