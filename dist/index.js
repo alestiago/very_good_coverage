@@ -10428,8 +10428,10 @@ function comment(message, githubToken) {
   if (!githubToken) return;
 
   const octokit = github.getOctokit(githubToken);
-  const { context } = __nccwpck_require__(5438);
-  const { pull_request } = context.payload;
+  const context = github.context;
+  const pull_request = context.payload;
+  // const { context } = require('@actions/github');
+  // const { pull_request } = context.payload;
 
   octokit.rest.issues.createComment({
     ...context.repo,
