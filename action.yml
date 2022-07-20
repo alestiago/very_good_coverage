@@ -21,7 +21,6 @@ inputs:
     default: false
   github_token:
     description: 'Token required to comment on a pull request'
-    type: string
     required: false
 runs:
   using: 'node12'

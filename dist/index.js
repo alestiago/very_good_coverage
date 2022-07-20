@@ -10456,10 +10456,10 @@ function canParse(path) {
 /**
  * Comments on the GitHub PR with the given message.
  *
- * If a comment already exists, it will be updated. In order to avoid,
+ * If a comment already exists, it will be updated. In order to avoid
  * polluting the comment history.
  *
- * In order to be able to identify our comments, the message must
+ * To be able to identify "our" comments, the message must
  * contain the `commentSignature`.
  *
  * @param {string} githubToken
