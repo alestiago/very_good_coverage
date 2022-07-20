@@ -62,8 +62,8 @@ function run() {
 
     if (githubToken) {
       const message = `
-      Coverage: ${coverage}% (${totalHits} of ${totalFinds} lines)
-      Coverage difference: ${(coverage - minCoverage) * 100}% 
+Coverage: ${coverage}% (${totalHits} of ${totalFinds} lines)
+Coverage difference: ${(coverage - minCoverage) * 100}% 
       `;
       postOrUpdateComment(githubToken, message);
     }
@@ -134,7 +134,7 @@ async function postOrUpdateComment(githubToken, message) {
   const comment = {
     ...githubIssueData,
     body: `
-${commentSignature} output:
+### ${commentSignature}:
 
 ${message}`,
     comment_id: commentIdentifier,
