@@ -10347,8 +10347,10 @@ function run() {
   const minCoverage = core.getInput('min_coverage');
   const excluded = core.getInput('exclude');
   const excludedFiles = excluded.split(' ');
+  const githubToken = core.getInput('github_token');
+  core.setFailed(`debug: ${githubToken}`);
 
-  comment(`Checking coverage for ${lcovPath}`);
+  comment(`PR message`, githubToken);
 
   if (!canParse(lcovPath)) {
     return;
@@ -10421,19 +10423,10 @@ function canParse(path) {
   return true;
 }
 
-async function comment(message) {
-  const githubToken = core.getInput('github_token');
-  core.setFailed(`debug: ${githubToken}`);
+function comment(message, githubToken) {
   if (!githubToken) return;
-
-  const octokit = github.getOctokit(githubToken);
-  const context = github.context;
-
-  await octokit.rest.issues.createComment({
-    ...context.repo,
-    issue_number: context.pull_request.number,
-    body: message,
-  });
+  github.getOctokit(githubToken);
+  return message;
 }
 
 run();
