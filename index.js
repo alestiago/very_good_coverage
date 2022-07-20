@@ -97,24 +97,27 @@ function canParse(path) {
  * @param {string} message
  * @returns
  */
-async function postOrUpdateComment(githubToken, message) {
+function postOrUpdateComment(githubToken, message) {
   if (!githubToken) return;
 
   const octokit = github.getOctokit(githubToken);
   const context = github.context;
-  octokit.rest.issues.updateComment;
 
   let commentIdentifier;
-  for (let comment of await context.issue.comments) {
-    if (comment.user.type === 'Bot' && comment.body.includes('Hello world 2')) {
-      commentIdentifier = comment.id;
-      break;
-    }
-  }
+  const githubIssueData = {
+    ...context.repo,
+    issue_number: context.issue.number,
+  };
+  // const previousComments = octokit.rest.issues.listComments(githubIssueData);
+  // for (let comment of previousComments) {
+  //   if (comment.user.type === 'Bot' && comment.body.includes('Hello world 2')) {
+  //     commentIdentifier = comment.id;
+  //     break;
+  //   }
+  // }
 
   const comment = {
-    ...context.repo,
-    issue_number: context.payload.number,
+    ...githubIssueData,
     body: message,
     comment_id: commentIdentifier,
   };
