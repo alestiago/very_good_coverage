@@ -63,12 +63,11 @@ function run() {
 ## ${reachedCoverage ? '✅' : '❌'} ${commentSignature}
 
 Coverage: ${coverage}% (${totalHits} of ${totalFinds} lines)
-Coverage difference: ${coverage - minCoverage}%
+Coverage difference: ${coverage - minCoverage}%\
 `;
 
       if (linesMissingCoverageByFile.length > 0) {
         message += `\
-<notextile>
 <details>
 
 <summary> Lines not covered </summary>
@@ -77,7 +76,7 @@ ${linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')}
 
 </details>
 </notextile>
-`;
+`.replace('<', '&lt;').replace('>', '&gt;');
       }
 
       postOrUpdateComment(githubToken, message);
@@ -170,4 +169,3 @@ async function postOrUpdateComment(githubToken, message) {
 }
 
 run();
-
