@@ -83,7 +83,7 @@ function canParse(path) {
   return true;
 }
 
-function comment(message) {
+async function comment(message) {
   const githubToken = core.getInput('github_token');
   if (githubToken === null) return;
   const octokit = github.getOctokit(githubToken);
