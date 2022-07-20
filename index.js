@@ -71,6 +71,7 @@ Coverage difference: ${coverage - minCoverage}%
 <details>
 
 <summary> Lines not covered </summary>
+
 ${linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')}
 
 </details>
