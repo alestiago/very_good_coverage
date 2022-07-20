@@ -62,7 +62,7 @@ function run() {
 
     if (githubToken) {
       const message = ```
-      Lines: ${coverage.toString()}% (${totalHits.toString()} of ${totalFinds.toString()} lines)
+     Hello world!
       ```;
       commentOnPullRequest(githubToken, message);
     }
