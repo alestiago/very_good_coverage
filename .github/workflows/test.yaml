@@ -38,12 +38,12 @@ jobs:
         uses: ./
         with:
           path: "./fixtures/lcov.100.info"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Test (90% requirement on 95% file)
         uses: ./
         with:
           path: "./fixtures/lcov.95.info"
           min_coverage: 90
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Test (100% requirement on 95% file)
         uses: ./
         with:

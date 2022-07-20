@@ -10405,7 +10405,7 @@ function run() {
 
     if (githubToken) {
       let message = `\
-## ${commentSignature} ${isValidBuild ? '✅' : '❌'}
+## ${isValidBuild ? '✅' : '❌'} ${commentSignature} 
 
 Coverage: ${coverage}% (${totalHits} of ${totalFinds} lines)
 Coverage difference: ${(coverage - minCoverage) * 100}% 
