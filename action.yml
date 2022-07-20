@@ -17,7 +17,6 @@ inputs:
     required: false
   github_token:
     description: 'GitHub token'
-    default: ${{ secrets.GITHUB_TOKEN }}
   # TODO(alestiago): Provide a better description
 runs:
   using: 'node12'
