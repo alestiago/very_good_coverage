@@ -10384,13 +10384,12 @@ function run() {
 
     const coverage = (totalHits / totalFinds) * 100;
     const isValidBuild = coverage >= minCoverage;
-    if (!isValidBuild) {
-      const linesMissingCoverageByFile = Object.entries(
-        linesMissingCoverage
-      ).map(([file, lines]) => {
+    const linesMissingCoverageByFile = Object.entries(linesMissingCoverage).map(
+      ([file, lines]) => {
         return `${file}: ${lines.join(', ')}`;
-      });
-
+      }
+    );
+    if (!isValidBuild) {
       core.setFailed(
         `${coverage} is less than min_coverage ${minCoverage}\n\n` +
           'Lines not covered:\n' +
@@ -10399,10 +10398,16 @@ function run() {
     }
 
     if (githubToken) {
-      const message = `
+      let message = `
 Coverage: ${coverage}% (${totalHits} of ${totalFinds} lines)
 Coverage difference: ${(coverage - minCoverage) * 100}% 
       `;
+      if (linesMissingCoverage) {
+        message += `
+Lines not covered:
+${linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')}
+      `;
+      }
       postOrUpdateComment(githubToken, message);
     }
   });
@@ -10472,7 +10477,7 @@ async function postOrUpdateComment(githubToken, message) {
   const comment = {
     ...githubIssueData,
     body: `
-### ${commentSignature}:
+### ${commentSignature}
 
 ${message}`,
     comment_id: commentIdentifier,
