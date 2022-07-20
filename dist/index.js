@@ -10392,31 +10392,41 @@ function run() {
     const reachedCoverage = coverage >= minCoverage;
     const linesMissingCoverageByFile = Object.entries(linesMissingCoverage).map(
       ([file, lines]) => {
-        return `${file}: ${lines.join(', ')}`;
+        return `- ${file}: ${lines.join(', ')}`;
       }
     );
 
-    if (githubToken) {
-      let message = `\
-## ${reachedCoverage ? '✅' : '❌'} ${commentSignature} 
-
-Coverage: ${coverage}% (${totalHits} of ${totalFinds} lines)
-Coverage difference: ${coverage - minCoverage}% 
-      `;
-      if (linesMissingCoverageByFile.length > 0) {
-        message += `\
-Lines not covered:
-${linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')}`;
-      }
-      postOrUpdateComment(githubToken, message);
-    }
-
     if (!reachedCoverage) {
+      const linesMissingCoverageByFile = Object.entries(
+        linesMissingCoverage
+      ).map(([file, lines]) => {
+        return `${file}: ${lines.join(', ')}`;
+      });
       core.setFailed(
         `${coverage} is less than min_coverage ${minCoverage}\n\n` +
           'Lines not covered:\n' +
           linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')
       );
+    }
+
+    if (githubToken) {
+      let message = `\
+## ${reachedCoverage ? '✅' : '❌'} ${commentSignature}
+
+Coverage: ${coverage}% (${totalHits} of ${totalFinds} lines)
+Coverage difference: ${
+        coverage - minCoverage
+      }% (${coverage}% of ${minCoverage}%)\
+`;
+
+      if (linesMissingCoverageByFile.length > 0) {
+        message += `\
+Lines not covered:
+${linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')}
+`;
+      }
+
+      postOrUpdateComment(githubToken, message);
     }
   });
 }
