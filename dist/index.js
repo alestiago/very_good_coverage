@@ -10399,10 +10399,10 @@ function run() {
     }
 
     if (githubToken) {
-      let coverageMessage = ```
-      Lines: ${coverage}% (${totalHits} of ${totalFinds} lines)
+      const message = ```
+      Lines: ${coverage.toString()}% (${totalHits.toString()} of ${totalFinds.toString()} lines)
       ```;
-      commentOnPullRequest(githubToken, coverageMessage);
+      commentOnPullRequest(githubToken, message);
     }
   });
 }
