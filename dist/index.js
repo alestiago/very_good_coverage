@@ -10427,10 +10427,9 @@ function comment(message) {
   if (!githubToken) return;
 
   const octokit = github.getOctokit(githubToken);
-  const context = github.context;
   octokit.rest.issues.createComment({
-    ...context.repo,
-    issue_number: context.pull_request.number,
+    ...github.repo,
+    issue_number: github.pull_request.number,
     body: message,
   });
 }
