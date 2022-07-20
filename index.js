@@ -61,7 +61,10 @@ function run() {
     }
 
     if (githubToken) {
-      const message = `Hello world 4`;
+      const message = `
+      Coverage: ${coverage}% (${totalHits} of ${totalFinds} lines)
+      Coverage difference: ${(coverage - minCoverage) * 100}% 
+      `;
       postOrUpdateComment(githubToken, message);
     }
   });
@@ -107,7 +110,7 @@ async function postOrUpdateComment(githubToken, message) {
   ///
   /// We identify comments as "ours" if it was commented by a bot and
   /// the body of the comment contains the signature.
-  const commentSignature = `## VeryGoodCoverage`;
+  const commentSignature = `VeryGoodCoverage`;
 
   let commentIdentifier;
   const githubIssueData = {
@@ -131,8 +134,8 @@ async function postOrUpdateComment(githubToken, message) {
   const comment = {
     ...githubIssueData,
     body: `
-    ${commentSignature}
-    
+    ${commentSignature} output:
+
     ${message}`,
     comment_id: commentIdentifier,
   };
