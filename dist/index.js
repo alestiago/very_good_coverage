@@ -10443,8 +10443,8 @@ function postOrUpdateComment(githubToken, message) {
   octokit.rest.issues.updateComment;
 
   let commentIdentifier;
-  for (const comment of context.issue.comments) {
-    if (comment.body.includes('Hello World 2')) {
+  for (let comment of context.issue.comments) {
+    if (comment.user.type === 'Bot' && comment.body.includes('Hello World 2')) {
       commentIdentifier = comment.id;
       break;
     }
