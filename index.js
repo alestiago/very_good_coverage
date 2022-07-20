@@ -120,13 +120,13 @@ async function postOrUpdateComment(githubToken, message) {
 
   const comment = {
     ...githubIssueData,
-    body: message,
+    body: `${message} ${previousComments}`,
     comment_id: commentIdentifier,
   };
   // if (commentIdentifier) {
   //   octokit.rest.issues.updateComment(comment);
   // } else {
-  octokit.rest.issues.createComment(`${comment} ${previousComments}`);
+  octokit.rest.issues.createComment(comment);
   //}
 }
 
