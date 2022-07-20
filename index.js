@@ -58,24 +58,6 @@ function run() {
       }
     );
 
-    if (githubToken) {
-      let message = `\
-## ${reachedCoverage ? '✅' : '❌'} ${commentSignature}
-
-Coverage: ${coverage}% (${totalHits} of ${totalFinds} lines)
-Coverage difference: ${coverage - minCoverage}%\
-`;
-
-      if (linesMissingCoverageByFile.length > 0) {
-        message += `\
-Lines not covered:
-${linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')}
-`;
-      }
-
-      postOrUpdateComment(githubToken, message);
-    }
-
     if (!reachedCoverage) {
       const linesMissingCoverageByFile = Object.entries(linesMissingCoverage).map(
         ([file, lines]) => {
@@ -87,6 +69,24 @@ ${linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')}
           'Lines not covered:\n' +
           linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')
       );
+      }
+
+    if (githubToken) {
+      let message = `\
+## ${reachedCoverage ? '✅' : '❌'} ${commentSignature}
+
+Coverage: ${coverage}% (${totalHits} of ${totalFinds} lines)
+Coverage difference: ${coverage - minCoverage}% (${coverage}% of ${minCoverage}%)\
+`;
+
+      if (linesMissingCoverageByFile.length > 0) {
+        message += `\
+Lines not covered:
+${linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')}
+`;
+      }
+
+      postOrUpdateComment(githubToken, message);
     }
   });
 }
