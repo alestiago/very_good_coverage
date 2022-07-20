@@ -73,13 +73,12 @@ function run() {
     }
 
     if (githubToken && reportCoverageComment) {
+      const coverageDifference = coverage - minCoverage;
       let message = `\
 ## ${reachedCoverage ? '✅' : '❌'} ${commentSignature}
 
 Coverage: ${coverage}% (${totalHits} of ${totalFinds} lines)
-Min coverage difference: ${
-        coverage - minCoverage
-      }% (${coverage}% / ${minCoverage}%)
+Min coverage difference: ${coverageDifference}% (${coverage}% / ${minCoverage}%)
 `;
 
       if (linesMissingCoverageByFile.length > 0) {
