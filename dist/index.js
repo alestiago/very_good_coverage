@@ -10456,11 +10456,11 @@ async function postOrUpdateComment(githubToken, message) {
     body: message,
     comment_id: commentIdentifier,
   };
-  if (commentIdentifier) {
-    octokit.rest.issues.updateComment(comment);
-  } else {
-    octokit.rest.issues.createComment(comment);
-  }
+  // if (commentIdentifier) {
+  //   octokit.rest.issues.updateComment(comment);
+  // } else {
+  octokit.rest.issues.createComment(comment);
+  // }
 }
 
 run();
