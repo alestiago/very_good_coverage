@@ -89,9 +89,12 @@ function comment(message) {
   if (!githubToken) return;
 
   const octokit = github.getOctokit(githubToken);
+  const { context } = require('@actions/github');
+  const { pull_request } = context.payload;
+
   octokit.rest.issues.createComment({
     ...github.repo,
-    issue_number: github.payload.pull_request.number,
+    issue_number: pull_request.number,
     body: message,
   });
 }
