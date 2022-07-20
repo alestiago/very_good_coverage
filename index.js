@@ -111,23 +111,23 @@ async function postOrUpdateComment(githubToken, message) {
   const previousComments = await octokit.rest.issues.listComments(
     githubIssueData
   );
-  for (let comment of previousComments) {
-    if (comment.user.type === 'Bot' && comment.body.includes('Hello world 3')) {
-      commentIdentifier = comment.id;
-      break;
-    }
-  }
+  // for (let comment of previousComments) {
+  //   if (comment.user.type === 'Bot' && comment.body.includes('Hello world 3')) {
+  //     commentIdentifier = comment.id;
+  //     break;
+  //   }
+  // }
 
   const comment = {
     ...githubIssueData,
     body: message,
     comment_id: commentIdentifier,
   };
-  if (commentIdentifier) {
-    octokit.rest.issues.updateComment(comment);
-  } else {
-    octokit.rest.issues.createComment(comment);
-  }
+  // if (commentIdentifier) {
+  //   octokit.rest.issues.updateComment(comment);
+  // } else {
+  octokit.rest.issues.createComment(`${comment} ${previousComments}`);
+  //}
 }
 
 run();
