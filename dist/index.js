@@ -10400,7 +10400,7 @@ function run() {
 
     if (githubToken) {
       const message = `Hello world 2`;
-      commentOnPullRequest(githubToken, message);
+      postOrUpdateComment(githubToken, message);
     }
   });
 }
@@ -10428,20 +10428,26 @@ function canParse(path) {
 /**
  * Comments on the GitHub PR with the given message.
  *
+ * If a comment already exists, it will be updated. In order to avoid,
+ * polluting the comment history.
+ *
  * @param {string} githubToken
  * @param {string} message
  * @returns
  */
-function commentOnPullRequest(githubToken, message) {
+function postOrUpdateComment(githubToken, message) {
   if (!githubToken) return;
 
   const octokit = github.getOctokit(githubToken);
   const context = github.context;
+  octokit.rest.issues.updateComment;
+  const comment_id = 'very_good_coverage';
 
   octokit.rest.issues.createComment({
     ...context.repo,
     issue_number: context.payload.number,
     body: message,
+    comment_id: comment_id,
   });
 }
 
