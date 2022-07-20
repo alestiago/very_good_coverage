@@ -10402,8 +10402,8 @@ function run() {
 Coverage: ${coverage}% (${totalHits} of ${totalFinds} lines)
 Coverage difference: ${(coverage - minCoverage) * 100}% 
       `;
-      if (linesMissingCoverage) {
-        message += `
+      if (linesMissingCoverage.length > 0) {
+        message += `\
 Lines not covered:
 ${linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')}
       `;
