@@ -10449,16 +10449,17 @@ async function postOrUpdateComment(githubToken, message) {
   const previousComments = await octokit.rest.issues.listComments(
     githubIssueData
   );
-  // for (let comment of previousComments) {
-  //   if (comment.user.type === 'Bot' && comment.body.includes('Hello world 3')) {
-  //     commentIdentifier = comment.id;
-  //     break;
-  //   }
-  // }
+  for (let i = 0; i < previousComments.data.length; i++) {
+    const comment = previousComments.data[i];
+    if (comment.user.type === 'Bot' && comment.body.includes('Hello world 3')) {
+      commentIdentifier = comment.id;
+      break;
+    }
+  }
 
   const comment = {
     ...githubIssueData,
-    body: `${message} ${previousComments}`,
+    body: `${message} ${commentIdentifier}`,
     comment_id: commentIdentifier,
   };
   // if (commentIdentifier) {
