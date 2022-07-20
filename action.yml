@@ -17,7 +17,9 @@ inputs:
     required: false
   report_coverage_comment:
     description: 'reports coverage information as a pull request comment'
+    type: boolean
     required: false
+    default: false
   github_token:
     description: 'Token required to comment on a pull request'
     required: false
