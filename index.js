@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-const github = require('@actions/github');
+const github = require('@actions/github'); /// https://octokit.github.io/
 const minimatch = require('minimatch');
 const parse = require('lcov-parse');
 const fs = require('fs');
@@ -103,18 +103,24 @@ function postOrUpdateComment(githubToken, message) {
   const octokit = github.getOctokit(githubToken);
   const context = github.context;
   octokit.rest.issues.updateComment;
-  const comment_id = 'very_good_coverage';
+
+  let commentIdentifier;
+  for (const comment of context.issue.comments) {
+    if (comment.body.includes('Hello World 2')) {
+      commentIdentifier = comment.id;
+      break;
+    }
+  }
 
   const comment = {
     ...context.repo,
     issue_number: context.payload.number,
     body: message,
-    comment_id: comment_id,
+    comment_id: commentIdentifier,
   };
-
-  try {
+  if (commentIdentifier) {
     octokit.rest.issues.updateComment(comment);
-  } catch (_) {
+  } else {
     octokit.rest.issues.createComment(comment);
   }
 }

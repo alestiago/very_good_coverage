@@ -10337,7 +10337,7 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 const core = __nccwpck_require__(2186);
-const github = __nccwpck_require__(5438);
+const github = __nccwpck_require__(5438); /// https://octokit.github.io/
 const minimatch = __nccwpck_require__(3973);
 const parse = __nccwpck_require__(7454);
 const fs = __nccwpck_require__(7147);
@@ -10441,18 +10441,24 @@ function postOrUpdateComment(githubToken, message) {
   const octokit = github.getOctokit(githubToken);
   const context = github.context;
   octokit.rest.issues.updateComment;
-  const comment_id = 'very_good_coverage';
+
+  let commentIdentifier;
+  for (const comment of context.issue.comments) {
+    if (comment.body.includes('Hello World 2')) {
+      commentIdentifier = comment.id;
+      break;
+    }
+  }
 
   const comment = {
     ...context.repo,
     issue_number: context.payload.number,
     body: message,
-    comment_id: comment_id,
+    comment_id: commentIdentifier,
   };
-
-  try {
+  if (commentIdentifier) {
     octokit.rest.issues.updateComment(comment);
-  } catch (_) {
+  } else {
     octokit.rest.issues.createComment(comment);
   }
 }
