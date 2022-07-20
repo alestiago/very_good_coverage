@@ -85,15 +85,14 @@ function canParse(path) {
 
 async function comment(message) {
   const githubToken = core.getInput('github_token');
-  if (githubToken === null) return;
-  const octokit = github.getOctokit(githubToken);
+  if (!githubToken) return;
   
-  const { context } = require('@actions/github')
-  const { pull_request } = context.payload;
+  const octokit = github.getOctokit(githubToken);
+  const context = github.context;
 
   await octokit.rest.issues.createComment({
     ...context.repo,
-    issue_number: pull_request.number,
+    issue_number: context.pull_request.number,
     body: message,
   });
 }
