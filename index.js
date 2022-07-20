@@ -11,10 +11,6 @@ function run() {
   const excludedFiles = excluded.split(' ');
   const githubToken = core.getInput('github_token');
 
-  if (githubToken) {
-    commentOnPullRequest(githubToken, 'Hello world');
-  }
-
   if (!canParse(lcovPath)) {
     return;
   }
@@ -62,6 +58,24 @@ function run() {
           'Lines not covered:\n' +
           linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')
       );
+    }
+
+    if (githubToken) {
+      let message = ```
+      Coverage: ${coverage}%
+      ```;
+      const linesMissingCoverageByFile = Object.entries(
+        linesMissingCoverage
+      ).map(([file, lines]) => {
+        return `${file}: ${lines.join(', ')}`;
+      });
+      if (linesMissingCoverage) {
+        message +=
+          `\n\nLines not covered:\n` +
+          linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n');
+      }
+
+      commentOnPullRequest(githubToken, message);
     }
   });
 }
