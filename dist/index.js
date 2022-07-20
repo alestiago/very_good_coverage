@@ -10348,7 +10348,6 @@ function run() {
   const excluded = core.getInput('exclude');
   const excludedFiles = excluded.split(' ');
   const githubToken = core.getInput('github_token');
-  core.setFailed(`debug: ${githubToken}`);
 
   comment(`PR message`, githubToken);
 
@@ -10423,10 +10422,17 @@ function canParse(path) {
   return true;
 }
 
-function comment(message, githubToken) {
+function comment(message) {
+  const githubToken = core.getInput('github_token');
   if (!githubToken) return;
-  github.getOctokit(githubToken);
-  return message;
+
+  const octokit = github.getOctokit(githubToken);
+  const context = octokit.context;
+  octokit.rest.issues.createComment({
+    ...context.repo,
+    issue_number: context.pull_request.number,
+    body: message,
+  });
 }
 
 run();
