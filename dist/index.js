@@ -10441,6 +10441,12 @@ async function postOrUpdateComment(githubToken, message) {
   const octokit = github.getOctokit(githubToken);
   const context = github.context;
 
+  /// The comment signature helps us identify a previous comment.
+  ///
+  /// We identify comments as "ours" if it was commented by a bot and
+  /// the body of the comment contains the signature.
+  const commentSignature = `## VeryGoodCoverage`;
+
   let commentIdentifier;
   const githubIssueData = {
     ...context.repo,
@@ -10451,7 +10457,10 @@ async function postOrUpdateComment(githubToken, message) {
   );
   for (let i = 0; i < previousComments.data.length; i++) {
     const comment = previousComments.data[i];
-    if (comment.user.type === 'Bot' && comment.body.includes('Hello world 3')) {
+    if (
+      comment.user.type === 'Bot' &&
+      comment.body.includes(commentSignature)
+    ) {
       commentIdentifier = comment.id;
       break;
     }
@@ -10459,7 +10468,10 @@ async function postOrUpdateComment(githubToken, message) {
 
   const comment = {
     ...githubIssueData,
-    body: `${message} ${commentIdentifier}`,
+    body: `
+    ${commentSignature}
+    
+    ${message}`,
     comment_id: commentIdentifier,
   };
   if (commentIdentifier) {
