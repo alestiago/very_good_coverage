@@ -10444,7 +10444,7 @@ async function postOrUpdateComment(githubToken, message) {
 
   let commentIdentifier;
   for (let comment of await context.issue.comments) {
-    if (comment.user.type === 'Bot' && comment.body.includes('Hello World 2')) {
+    if (comment.user.type === 'Bot' && comment.body.includes('Hello world 2')) {
       commentIdentifier = comment.id;
       break;
     }
