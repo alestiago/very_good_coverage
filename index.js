@@ -16,6 +16,7 @@ function run() {
   const excluded = core.getInput('exclude');
   const excludedFiles = excluded.split(' ');
   const githubToken = core.getInput('github_token');
+  const reportCoverageComment = core.getInput('report_coverage_comment');
 
   if (!canParse(lcovPath)) {
     return;
@@ -71,7 +72,7 @@ function run() {
       );
     }
 
-    if (githubToken) {
+    if (githubToken && reportCoverageComment) {
       let message = `\
 ## ${reachedCoverage ? '✅' : '❌'} ${commentSignature}
 
