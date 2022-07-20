@@ -61,7 +61,7 @@ function run() {
     }
 
     if (githubToken) {
-      const message = `Hello world 2`;
+      const message = `Hello world 3`;
       postOrUpdateComment(githubToken, message);
     }
   });
@@ -105,12 +105,18 @@ function postOrUpdateComment(githubToken, message) {
   octokit.rest.issues.updateComment;
   const comment_id = 'very_good_coverage';
 
-  octokit.rest.issues.createComment({
+  const comment = {
     ...context.repo,
     issue_number: context.payload.number,
     body: message,
     comment_id: comment_id,
-  });
+  };
+
+  try {
+    octokit.rest.issues.updateComment(comment);
+  } catch (_) {
+    octokit.rest.issues.createComment(comment);
+  }
 }
 
 run();
