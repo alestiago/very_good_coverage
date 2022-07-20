@@ -38,7 +38,6 @@ jobs:
         uses: ./
         with:
           path: "./fixtures/lcov.100.info"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Test (90% requirement on 95% file)
         uses: ./
         with:

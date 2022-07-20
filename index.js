@@ -72,7 +72,7 @@ function run() {
       );
     }
 
-    if (githubToken && reportCoverageComment) {
+    if (reportCoverageComment && githubToken) {
       const coverageDifference = coverage - minCoverage;
       let message = `\
 ## ${reachedCoverage ? '✅' : '❌'} ${commentSignature}
