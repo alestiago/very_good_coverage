@@ -10472,9 +10472,9 @@ async function postOrUpdateComment(githubToken, message) {
   const comment = {
     ...githubIssueData,
     body: `
-    ${commentSignature} output:
+${commentSignature} output:
 
-    ${message}`,
+${message}`,
     comment_id: commentIdentifier,
   };
   if (commentIdentifier) {
