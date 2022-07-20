@@ -4,6 +4,12 @@ const minimatch = require('minimatch');
 const parse = require('lcov-parse');
 const fs = require('fs');
 
+/// The comment signature helps us identify a previous comment.
+///
+/// We identify comments as "ours" if it was commented by a bot and
+/// the body of the comment contains the signature.
+const commentSignature = `VeryGoodCoverage`;
+
 function run() {
   const lcovPath = core.getInput('path');
   const minCoverage = core.getInput('min_coverage');
@@ -60,7 +66,9 @@ function run() {
     }
 
     if (githubToken) {
-      let message = `
+      let message = `\
+## ${commentSignature} ${isValidBuild ? '✅' : '❌'}
+
 Coverage: ${coverage}% (${totalHits} of ${totalFinds} lines)
 Coverage difference: ${(coverage - minCoverage) * 100}% 
       `;
@@ -101,6 +109,9 @@ function canParse(path) {
  * If a comment already exists, it will be updated. In order to avoid,
  * polluting the comment history.
  *
+ * In order to be able to identify our comments, the message must
+ * contain the `commentSignature`.
+ *
  * @param {string} githubToken
  * @param {string} message
  * @returns
@@ -111,17 +122,12 @@ async function postOrUpdateComment(githubToken, message) {
   const octokit = github.getOctokit(githubToken);
   const context = github.context;
 
-  /// The comment signature helps us identify a previous comment.
-  ///
-  /// We identify comments as "ours" if it was commented by a bot and
-  /// the body of the comment contains the signature.
-  const commentSignature = `VeryGoodCoverage`;
-
-  let commentIdentifier;
   const githubIssueData = {
     ...context.repo,
     issue_number: context.issue.number,
   };
+
+  let commentIdentifier;
   const previousComments = await octokit.rest.issues.listComments(
     githubIssueData
   );
@@ -138,10 +144,7 @@ async function postOrUpdateComment(githubToken, message) {
 
   const comment = {
     ...githubIssueData,
-    body: `
-### ${commentSignature}
-
-${message}`,
+    body: message,
     comment_id: commentIdentifier,
   };
   if (commentIdentifier) {
