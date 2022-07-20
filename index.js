@@ -51,13 +51,13 @@ function run() {
     });
 
     const coverage = (totalHits / totalFinds) * 100;
-    const isValidBuild = coverage >= minCoverage;
+    const reachedCoverage = coverage >= minCoverage;
     const linesMissingCoverageByFile = Object.entries(linesMissingCoverage).map(
       ([file, lines]) => {
         return `${file}: ${lines.join(', ')}`;
       }
     );
-    if (!isValidBuild) {
+    if (!reachedCoverage) {
       core.setFailed(
         `${coverage} is less than min_coverage ${minCoverage}\n\n` +
           'Lines not covered:\n' +
@@ -67,10 +67,10 @@ function run() {
 
     if (githubToken) {
       let message = `\
-## ${isValidBuild ? '✅' : '❌'} ${commentSignature} 
+## ${reachedCoverage ? '✅' : '❌'} ${commentSignature} 
 
 Coverage: ${coverage}% (${totalHits} of ${totalFinds} lines)
-Coverage difference: ${(coverage - minCoverage) * 100}% 
+Coverage difference: ${coverage - minCoverage}% 
       `;
       if (linesMissingCoverage.length > 0) {
         message += `\
