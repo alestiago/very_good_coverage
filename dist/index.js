@@ -10350,7 +10350,7 @@ function run() {
   const githubToken = core.getInput('github_token');
 
   if (githubToken) {
-    commentOnPullRequest(`PR message`, githubToken);
+    commentOnPullRequest(githubToken, 'Hello world');
   }
 
   if (!canParse(lcovPath)) {
@@ -10427,11 +10427,11 @@ function canParse(path) {
 /**
  * Comments on the GitHub PR with the given message.
  *
- * @param {string} message
  * @param {string} githubToken
+ * @param {string} message
  * @returns
  */
-function commentOnPullRequest(message, githubToken) {
+function commentOnPullRequest(githubToken, message) {
   if (!githubToken) return;
 
   const octokit = github.getOctokit(githubToken);
