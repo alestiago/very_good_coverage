@@ -76,9 +76,9 @@ function run() {
 ## ${reachedCoverage ? '✅' : '❌'} ${commentSignature}
 
 Coverage: ${coverage}% (${totalHits} of ${totalFinds} lines)
-Coverage difference: ${
+Min coverage difference: ${
         coverage - minCoverage
-      }% (${coverage}% of ${minCoverage}% reach)
+      }% (${coverage}% / ${minCoverage}%)
 `;
 
       if (linesMissingCoverageByFile.length > 0) {
