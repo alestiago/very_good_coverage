@@ -61,7 +61,7 @@ function run() {
     }
 
     if (githubToken) {
-      const message = 'Hello world';
+      const message = `Hello world 2`;
       commentOnPullRequest(githubToken, message);
     }
   });
