@@ -10395,13 +10395,6 @@ function run() {
         return `${file}: ${lines.join(', ')}`;
       }
     );
-    if (!reachedCoverage) {
-      core.setFailed(
-        `${coverage} is less than min_coverage ${minCoverage}\n\n` +
-          'Lines not covered:\n' +
-          linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')
-      );
-    }
 
     if (githubToken) {
       let message = `\
@@ -10417,6 +10410,14 @@ ${linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')}
       `;
       }
       postOrUpdateComment(githubToken, message);
+    }
+
+    if (!reachedCoverage) {
+      core.setFailed(
+        `${coverage} is less than min_coverage ${minCoverage}\n\n` +
+          'Lines not covered:\n' +
+          linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')
+      );
     }
   });
 }
