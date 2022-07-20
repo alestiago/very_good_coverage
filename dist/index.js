@@ -10347,8 +10347,11 @@ function run() {
   const minCoverage = core.getInput('min_coverage');
   const excluded = core.getInput('exclude');
   const excludedFiles = excluded.split(' ');
+  const githubToken = core.getInput('github_token');
 
-  comment(`PR message`);
+  if (githubToken) {
+    comment(`PR message`, githubToken);
+  }
 
   if (!canParse(lcovPath)) {
     return;
@@ -10421,8 +10424,7 @@ function canParse(path) {
   return true;
 }
 
-function comment(message) {
-  const githubToken = core.getInput('github_token');
+function comment(message, githubToken) {
   if (!githubToken) return;
 
   const octokit = github.getOctokit(githubToken);
