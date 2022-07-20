@@ -9,9 +9,8 @@ function run() {
   const minCoverage = core.getInput('min_coverage');
   const excluded = core.getInput('exclude');
   const excludedFiles = excluded.split(' ');
-  const githubToken = core.getInput('github_token');
 
-  comment(`PR message`, githubToken);
+  comment(`PR message`);
 
   if (!canParse(lcovPath)) {
     return;
@@ -93,7 +92,7 @@ function comment(message) {
   const { pull_request } = context.payload;
 
   octokit.rest.issues.createComment({
-    ...github.repo,
+    ...context.repo,
     issue_number: pull_request.number,
     body: message,
   });
