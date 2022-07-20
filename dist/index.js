@@ -10399,15 +10399,12 @@ function run() {
     }
 
     if (githubToken) {
-      let message = ```
-      Coverage: ${coverage}%
-      ```;
-      if (linesMissingCoverage) {
-        message +=
-          `\n\nLines not covered:\n` +
-          linesMissingCoverage.map((line) => `  ${line}`).join('\n');
-      }
+      const coverageDifference = (coverage - minCoverage) * 100;
 
+      let message = ```
+      Lines: ${coverage}% (${totalHits} of ${totalFinds} lines)
+      Coverage difference: ${coverageDifference}% (${coverage}% - ${minCoverage}%)
+      ```;
       commentOnPullRequest(githubToken, message);
     }
   });
@@ -10445,9 +10442,11 @@ function commentOnPullRequest(githubToken, message) {
 
   const octokit = github.getOctokit(githubToken);
   const context = github.context;
+  const owner = 'very_good_coverage';
 
   octokit.rest.issues.createComment({
-    ...context.repo,
+    owner: owner,
+    repo: context.repo,
     issue_number: context.payload.number,
     body: message,
   });
