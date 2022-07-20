@@ -104,11 +104,9 @@ function commentOnPullRequest(githubToken, message) {
 
   const octokit = github.getOctokit(githubToken);
   const context = github.context;
-  const owner = 'very_good_coverage';
 
   octokit.rest.issues.createComment({
-    owner: owner,
-    repo: context.repo,
+    ...context.repo,
     issue_number: context.payload.number,
     body: message,
   });
