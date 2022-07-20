@@ -10435,7 +10435,7 @@ function canParse(path) {
  * @param {string} message
  * @returns
  */
-function postOrUpdateComment(githubToken, message) {
+async function postOrUpdateComment(githubToken, message) {
   if (!githubToken) return;
 
   const octokit = github.getOctokit(githubToken);
@@ -10443,7 +10443,7 @@ function postOrUpdateComment(githubToken, message) {
   octokit.rest.issues.updateComment;
 
   let commentIdentifier;
-  for (let comment of context.issue.comments) {
+  for (let comment of await context.issue.comments) {
     if (comment.user.type === 'Bot' && comment.body.includes('Hello World 2')) {
       commentIdentifier = comment.id;
       break;
