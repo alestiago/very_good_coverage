@@ -68,15 +68,9 @@ Coverage difference: ${coverage - minCoverage}%\
 
       if (linesMissingCoverageByFile.length > 0) {
         message += `\
-<details>
-
-<summary> Lines not covered </summary>
-
+Lines not covered:
 ${linesMissingCoverageByFile.map((line) => `  ${line}`).join('\n')}
-
-</details>
-</notextile>
-`.replace('<', '&lt;').replace('>', '&gt;');
+`;
       }
 
       postOrUpdateComment(githubToken, message);
