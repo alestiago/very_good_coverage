@@ -35,12 +35,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
       - name: Test (100% requirement on 100% file)
         uses: ./
         with:
           path: "./fixtures/lcov.100.info"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.MY_TOKEN }}
       - name: Test (90% requirement on 95% file)
         uses: ./
         with:
